@@ -13,10 +13,11 @@ Before opening a PR:
 
 ```bash
 npx tsc --noEmit
+npm test
 npm run build
 ```
 
-CI runs the same two checks.
+CI runs the same three checks.
 
 ## Lay of the land
 

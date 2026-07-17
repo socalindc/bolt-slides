@@ -70,11 +70,21 @@ export function LineChart({
   const animate = !isStatic && !reduce;
   const w = 300,
     h = 120;
+  if (!points.length)
+    return (
+      <div
+        className="ch-wrap ch-empty"
+        ref={ref}
+        style={{ height }}
+        role="img"
+        aria-label="No chart data"
+      />
+    );
   const max = Math.max(...points),
     min = Math.min(...points);
   const span = max - min || 1;
   const coords = points.map((p, i) => [
-    (i / (points.length - 1)) * w,
+    points.length === 1 ? w / 2 : (i / (points.length - 1)) * w,
     h - ((p - min) / span) * (h - 10) - 5,
   ]);
   const line = coords

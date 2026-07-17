@@ -10,7 +10,8 @@ import { useInView } from '../deck/useInView';
      columns={['Region', 'ARR', 'Growth', { label: 'NRR', align: 'center' }]}
      rows={[['North America', '$2.4M', '+38%', '124%'], …]}
      highlightCol={1} caption="Company data, FY25" />
-   Keep it ≤5 columns and ≤7 rows — a paged slide can't scroll. */
+   Keep it ≤5 columns and ≤7 rows — phone scrolling is an overflow escape hatch,
+   not a substitute for slide-sized data. */
 export type TableColumn =
   | string
   | { label: string; align?: 'left' | 'right' | 'center' };

@@ -38,7 +38,15 @@ body {
 .slide-stage {
   position: absolute;
   inset: 0;
+}
+.slide-stage.active {
+  z-index: 1;
   animation: slideIn 0.5s var(--ease) both;
+}
+.slide-stage.inactive {
+  z-index: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 @keyframes slideIn {
   from {
@@ -78,6 +86,32 @@ body {
   width: 100%;
   max-width: 1180px;
   margin-inline: auto;
+}
+
+/* A render failure stays contained to one slide; the deck chrome remains live. */
+.slide-error .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.slide-error .lead {
+  margin-inline: auto;
+}
+.slide-error-retry {
+  border: 1px solid color-mix(in srgb, var(--primary) 36%, transparent);
+  border-radius: 999px;
+  padding: 10px 18px;
+  color: var(--accent-ink);
+  background: var(--accent);
+  font: 600 14px/1 var(--font-body);
+  cursor: pointer;
+}
+.slide-error.compact {
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-muted);
+  font: 600 clamp(28px, 4vw, 54px)/1.1 var(--font-body);
 }
 
 /* Atmosphere — drifting spotlights + film grain + vignette, per slide */
@@ -2015,8 +2049,8 @@ strong {
   .tier {
     padding: 18px 20px;
   }
-  /* a paged slide can't scroll — on phones only the crowned tier keeps its
-     feature list so three stacked tiers still fit one screen */
+  /* Keep the common phone case to one screen: only the crowned tier retains
+     its feature list, even though tall slides now have a scroll escape hatch. */
   .tier:not(.hl) .tier-list {
     display: none;
   }
@@ -2100,11 +2134,11 @@ strong {
   gap: 4px;
   padding: 7px 9px;
   border-radius: 999px;
-  background: rgba(28, 28, 30, 0.66);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--chrome-bg);
+  border: 1px solid var(--chrome-hair);
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--chrome-shadow);
 }
 .noir-icon-btn {
   width: 38px;
@@ -2114,13 +2148,13 @@ strong {
   border: none;
   border-radius: 999px;
   background: transparent;
-  color: #e8e8ea;
+  color: var(--chrome-fg);
   font-size: 19px;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 }
 .noir-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--chrome-hover);
 }
 .noir-icon-btn:disabled {
   opacity: 0.28;
@@ -2145,7 +2179,7 @@ strong {
 .noir-sep {
   width: 1px;
   height: 22px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--chrome-hover);
   margin: 0 4px;
 }
 .noir-counter {
@@ -2161,11 +2195,11 @@ strong {
 .noir-counter-now {
   font-size: 16px;
   font-weight: 600;
-  color: #f5f5f7;
+  color: var(--chrome-fg);
 }
 .noir-counter-tot {
   font-size: 13px;
-  color: #8e8e93;
+  color: var(--chrome-muted);
 }
 /* nav cluster: inline in the pill on desktop; its own pill above on phones */
 .noir-nav-bar {
@@ -2187,8 +2221,8 @@ strong {
   z-index: 95;
   padding: 18px 14px 26px;
   overflow-y: auto;
-  background: rgba(18, 18, 20, 0.82);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--chrome-bg-strong);
+  border-right: 1px solid var(--chrome-hair);
   backdrop-filter: blur(26px) saturate(180%);
   -webkit-backdrop-filter: blur(26px) saturate(180%);
   font-family: var(--font-body);
@@ -2209,7 +2243,7 @@ strong {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #8e8e93;
+  color: var(--chrome-muted);
 }
 .noir-rail-list {
   display: flex;
@@ -2226,12 +2260,27 @@ strong {
   cursor: pointer;
   text-align: left;
 }
+.noir-thumb-meta {
+  width: 72px;
+  min-width: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 .noir-thumb-no {
-  width: 18px;
+  width: auto;
   font-size: 12px;
   font-feature-settings: 'tnum' 1;
-  color: #6e6e73;
+  color: var(--chrome-faint);
   flex-shrink: 0;
+}
+.noir-thumb-label {
+  overflow: hidden;
+  color: var(--chrome-muted);
+  font-size: 10px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .noir-thumb-frame {
   flex: 1;
@@ -2245,7 +2294,7 @@ strong {
   background: var(--bg);
 }
 .noir-thumb:hover .noir-thumb-frame {
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: color-mix(in srgb, var(--chrome-fg) 22%, transparent);
 }
 .noir-thumb.active .noir-thumb-no {
   color: var(--primary);
@@ -2277,7 +2326,7 @@ strong {
   z-index: 89;
   padding: 18px 22px 96px;
   overflow-y: auto;
-  background: rgba(18, 18, 20, 0.92);
+  background: var(--chrome-bg-strong);
   backdrop-filter: blur(26px) saturate(180%);
   -webkit-backdrop-filter: blur(26px) saturate(180%);
   font-family: var(--font-body);
@@ -2305,6 +2354,12 @@ strong {
   width: auto;
   padding-left: 2px;
 }
+.noir-grid .noir-thumb-meta {
+  order: 2;
+  width: auto;
+  min-width: 0;
+  padding-left: 2px;
+}
 
 /* Presenter overlay (notes + next + timer) */
 .noir-presenter {
@@ -2313,15 +2368,15 @@ strong {
   bottom: 78px;
   z-index: 92;
   width: clamp(260px, 26vw, 360px);
-  background: rgba(18, 18, 20, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--chrome-bg-strong);
+  border: 1px solid var(--chrome-hair);
   border-radius: 16px;
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--chrome-shadow);
   padding: 16px;
   font-family: var(--font-body);
-  color: #e8e8ea;
+  color: var(--chrome-fg);
 }
 .noir-presenter-row {
   display: flex;
@@ -2334,7 +2389,7 @@ strong {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #8e8e93;
+  color: var(--chrome-muted);
 }
 .noir-presenter-timer {
   font-size: 13px;
@@ -2344,7 +2399,7 @@ strong {
 .noir-presenter-next {
   border-radius: 9px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--chrome-hair);
   aspect-ratio: 16/9;
   position: relative;
   background: var(--bg);
@@ -2356,7 +2411,7 @@ strong {
   max-height: 32vh;
   font-size: 13.5px;
   line-height: 1.5;
-  color: #c7c7cc;
+  color: var(--chrome-fg);
   background: transparent;
   border: none;
   resize: none;
@@ -2364,15 +2419,15 @@ strong {
   font-family: var(--font-body);
 }
 .noir-presenter-notes:focus {
-  color: #f0f0f2;
+  color: var(--chrome-fg);
 }
 .noir-presenter-notes::placeholder {
-  color: #6e6e73;
+  color: var(--chrome-faint);
 }
 .noir-presenter-hint {
   margin-top: 8px;
   font-size: 11px;
-  color: #6e6e73;
+  color: var(--chrome-faint);
 }
 
 /* Annotation overlay + tool bar */
@@ -2396,11 +2451,11 @@ strong {
   flex-wrap: wrap;
   max-width: 94vw;
   justify-content: center;
-  background: rgba(28, 28, 30, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--chrome-bg);
+  border: 1px solid var(--chrome-hair);
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--chrome-shadow);
   font-family: var(--font-body);
 }
 .ann-btn {
@@ -2411,7 +2466,7 @@ strong {
   border: none;
   border-radius: 999px;
   background: transparent;
-  color: #e8e8ea;
+  color: var(--chrome-fg);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 }
@@ -2420,7 +2475,7 @@ strong {
   height: 19px;
 }
 .ann-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--chrome-hover);
 }
 .ann-btn.on {
   color: var(--accent-ink);
@@ -2429,7 +2484,7 @@ strong {
 .ann-sep {
   width: 1px;
   height: 22px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--chrome-hover);
   margin: 0 4px;
 }
 .ann-color {
@@ -2439,10 +2494,11 @@ strong {
   border: 2px solid transparent;
   cursor: pointer;
   padding: 0;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--chrome-fg) 18%, transparent);
 }
 .ann-color.on {
-  border-color: #fff;
+  border-color: var(--chrome-fg);
   transform: scale(1.08);
 }
 .ann-size {
@@ -2458,10 +2514,10 @@ strong {
 .ann-size span {
   display: block;
   border-radius: 50%;
-  background: #e8e8ea;
+  background: var(--chrome-fg);
 }
 .ann-size.on {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--chrome-hover);
 }
 .ann-size.on span {
   background: var(--primary);
@@ -2483,9 +2539,9 @@ strong {
   font-size: 11.5px;
   font-weight: 500;
   font-family: var(--font-body);
-  background: rgba(20, 20, 22, 0.96);
-  color: #f5f5f7;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--chrome-bg-strong);
+  color: var(--chrome-fg);
+  border: 1px solid var(--chrome-hair);
   box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.7);
   opacity: 0;
   pointer-events: none;

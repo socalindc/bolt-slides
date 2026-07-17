@@ -7,8 +7,8 @@
 One prompt in — your agent builds a deck where every slide is a live, responsive web page.
 3D, live data, working prototypes, and whatever you can prompt.
 
-[![Open in Bolt](https://img.shields.io/badge/Open_in-⚡_Bolt-1a1a2e?style=flat-square)](https://bolt.new/github.com/stackblitz/bolt-slides)
-[![Open in StackBlitz](https://img.shields.io/badge/Open_in-StackBlitz-1389fd?style=flat-square)](https://stackblitz.com/github/stackblitz/bolt-slides)
+[![Open in Bolt](https://img.shields.io/badge/Open_in-⚡_Bolt-1a1a2e?style=flat-square)](https://bolt.new/github.com/socalindc/bolt-slides)
+[![Open in StackBlitz](https://img.shields.io/badge/Open_in-StackBlitz-1389fd?style=flat-square)](https://stackblitz.com/github/socalindc/bolt-slides)
 [![License: MIT](https://img.shields.io/badge/License-MIT-c8f56e?style=flat-square)](./LICENSE)
 
 <img src=".github/assets/demo.gif" alt="Bolt Slides — from one prompt in Bolt to a finished interactive deck" width="820" />
@@ -16,6 +16,12 @@ One prompt in — your agent builds a deck where every slide is a live, responsi
 </div>
 
 ---
+
+> **Maintained hardening fork.** This repository tracks
+> [stackblitz/bolt-slides](https://github.com/stackblitz/bolt-slides) and adds
+> reliable presenter startup, durable synchronized annotations, accessible builds
+> and controls, state-preserving interactive slides, crash containment, mobile
+> navigation, and automated regression tests. See [CHANGELOG.md](./CHANGELOG.md).
 
 ## Why we made this
 
@@ -33,7 +39,7 @@ Under the hood it's a classic paged deck — Slidev-style dock, thumbnail sideba
 
 ## Quick start
 
-**With an agent (the fun way).** Open the repo in [Bolt](https://bolt.new/github.com/stackblitz/bolt-slides) and prompt it:
+**With an agent (the fun way).** Open the repo in [Bolt](https://bolt.new/github.com/socalindc/bolt-slides) and prompt it:
 
 > Build me a deck pitching «your thing» to «your audience».
 
@@ -42,7 +48,7 @@ The bundled skill ([`.bolt/skills/slides/SKILL.md`](./.bolt/skills/slides/SKILL.
 **By hand.**
 
 ```bash
-git clone https://github.com/stackblitz/bolt-slides
+git clone https://github.com/socalindc/bolt-slides
 cd bolt-slides
 npm install
 npm run dev
@@ -82,7 +88,8 @@ Each top-level child of `<Deck>` is one slide. Compose them from the component l
 
 - **`<Build at={n}>`** reveals content on the nth click — arrow keys step through builds before advancing slides, forward *and* back.
 - **`notes="…"`** on any slide shows up in presenter mode; notes you edit while presenting persist locally.
-- Slides are ordinary React — fetch live data, mount a 3D scene, embed your actual product.
+- Slides are ordinary React — fetch live data, mount a 3D scene, embed your actual product. Visited slides remain mounted by default, so interactive state survives navigation; pass `preserveSlideState={false}` to opt out for unusually heavy decks.
+- **`<Deck id="acme-series-a">`** optionally supplies a stable namespace for presenter sync, notes, and annotations. Without it, the URL path is used.
 
 ## Presenting
 
@@ -101,8 +108,8 @@ Each top-level child of `<Deck>` is one slide. Compose them from the component l
 | `H` | Hide the UI |
 | `Esc` | Close overlays |
 
-- **Presenter mode** opens in a second tab with a timer, next-slide preview, and editable notes — kept in sync with the audience tab via `BroadcastChannel`.
-- **Annotations are content-anchored**: a circle drawn around a stat on a laptop rings the same stat on a phone, wherever the layout moved it. Drawings persist per slide.
+- **Presenter mode** opens in a second tab with a timer, next-slide preview, and editable notes. A state-request handshake hydrates the new tab before it can broadcast, preventing presenter startup from resetting an active build.
+- **Annotations are content-anchored**: a circle drawn around a stat on a laptop rings the same stat on a phone, wherever the layout moved it. Drawings persist locally per deck and synchronize between audience and presenter tabs.
 - **Deep links**: the URL hash tracks the slide (`/#7`), so you can share a link straight to a slide.
 
 ## Component library
@@ -119,7 +126,7 @@ All of them are demoed in the bundled starter deck, and all of them are responsi
 
 ## Theming
 
-Every color, font, radius, and shadow lives in the `:root` block of [`src/styles/tokens.css`](./src/styles/tokens.css). Change `--primary` and the entire deck — chrome included — recolors. Nine ready-made theme directions are documented in the skill, from editorial luxury to dark technical.
+Every color, font, radius, shadow, and presentation-chrome surface lives in the `:root` block of [`src/styles/tokens.css`](./src/styles/tokens.css). Change `--primary` to recolor deck and chrome accents; use the `--chrome-*` tokens when a light or branded control surface is needed. Nine ready-made theme directions are documented in the skill, from editorial luxury to dark technical.
 
 ## Project structure
 
@@ -133,8 +140,8 @@ src/App.tsx            your deck (ships with the component demo)
 
 ## Contributing
 
-Issues and PRs welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md). `npm run dev` to hack, `npx tsc --noEmit && npm run build` before you push.
+Issues and PRs welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md). `npm run dev` to hack; run `npx tsc --noEmit && npm test && npm run build` before you push.
 
 ## License
 
-[MIT](./LICENSE) © StackBlitz
+[MIT](./LICENSE) © StackBlitz. Maintained-fork changes © their contributors.

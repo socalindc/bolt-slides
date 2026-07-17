@@ -8,6 +8,32 @@ const KW =
   /\b(const|let|var|function|return|if|else|for|while|import|from|export|default|class|new|await|async|type|interface|extends|implements|public|private|true|false|null|undefined)\b/g;
 const NUM = /(\b\d+(?:\.\d+)?\b)/g;
 
+function lineCommentIndex(line: string) {
+  let quote: "'" | '"' | '`' | null = null;
+  let escaped = false;
+  for (let i = 0; i < line.length - 1; i++) {
+    const char = line[i];
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (char === '\\' && quote) {
+      escaped = true;
+      continue;
+    }
+    if (quote) {
+      if (char === quote) quote = null;
+      continue;
+    }
+    if (char === "'" || char === '"' || char === '`') {
+      quote = char;
+      continue;
+    }
+    if (char === '/' && line[i + 1] === '/') return i;
+  }
+  return -1;
+}
+
 function tintNumbers(s: string, key: number): ReactNode {
   const parts = s.split(NUM);
   if (parts.length === 1) return s;
@@ -27,8 +53,8 @@ function tintNumbers(s: string, key: number): ReactNode {
 }
 
 function hl(line: string): ReactNode {
-  // split off a trailing line comment
-  const ci = line.indexOf('//');
+  // Split off a real trailing line comment without mistaking URL strings for it.
+  const ci = lineCommentIndex(line);
   const code = ci >= 0 ? line.slice(0, ci) : line;
   const comment = ci >= 0 ? line.slice(ci) : '';
   // strings first (odd indices), then keywords, then numeric literals
