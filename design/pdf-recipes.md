@@ -18,11 +18,12 @@ Changing variable content does not create a new design. Changing a locked decisi
 
 ## Shared authored-advisory foundation
 
-Both recipes use the authored-advisory register and the house palette roles:
+Both recipes use one declared authored-advisory register and the house palette roles. The register is conditional, but mixing registers inside one artifact is not:
 
-- Petrona for the principal editorial claim, giant address or identifier, and true-italic countervoice.
-- Instrument Sans for explanatory prose, row names, proof copy, and operational labels that need immediate reading.
-- JetBrains Mono for section identifiers, evidence tags, time labels, source lines, and compact furniture.
+- **Dramatic:** Petrona for the principal editorial claim, giant address or identifier, and true-italic countervoice; Instrument Sans for explanatory prose; JetBrains Mono for section identifiers, evidence tags, source lines, and compact furniture.
+- **Restrained:** Newsreader for sentence-led claims, large identifiers, and true-italic countervoice; Manrope for explanatory prose; IBM Plex Mono for section identifiers, evidence tags, source lines, and compact furniture.
+- Select the mode in the output profile before composing. The recipes lock type roles and hierarchy; they do not force Petrona when the approved Newsreader mode better fits the voice.
+- Layout, chart, image, palette, numeral, and headline-font approvals are separate. Reusing an approved composition never silently locks its headline face.
 - Warm paper, ink, muted ink, oxblood, and the dark field come from `design-git.md`; do not introduce a one-off palette inside the recipe.
 - Hairline rules and compact mono furniture establish continuity. Rounded cards, floating pills, and decorative shadows do not belong in these print recipes.
 - Concept imagery is labeled as concept imagery. It never impersonates the actual site or operator.
@@ -50,7 +51,7 @@ Show an observed pattern, explain the denominator or comparison limit, and trans
 ├──────────────────────────────┬───────────────────────┤
 │ Primary build-for conclusion │ Secondary phase note  │
 ├──────────────────────────────┴───────────────────────┤
-│ Petrona italic closing interpretation                │
+│ Approved editorial italic closing interpretation     │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -64,7 +65,7 @@ Show an observed pattern, explain the denominator or comparison limit, and trans
 - Points, labels, row rules, time ticks, and the highlighted interval use one consistent grammar across every use of the recipe.
 - The source and method line sits immediately beneath the evidence field, not in a remote endnote.
 - The primary conclusion occupies the larger dark block. The secondary phase occupies the smaller light block. Their unequal area expresses priority.
-- A restrained Petrona italic sentence closes the page and interprets the evidence in plain language.
+- A restrained true-italic sentence in the declared display face closes the page and interprets the evidence in plain language.
 - No photography, map, aerial, or unrelated illustration is inserted into this page. Those belong on another page.
 
 ### Variable content
@@ -111,7 +112,7 @@ Make one recommendation unmistakable, show the desired operating energy, identif
 - The logo remains quiet and legible; the section tab names the recommendation stage rather than acting as decoration.
 - `CONCEPT DIRECTION · NOT THE ACTUAL SPACE` or the equivalent factual-status label is visible on the image itself.
 - The address or site identifier is the first element in the dark field and uses the accent as a navigational anchor.
-- The recommendation is one Petrona statement, shaped manually into two to four lines. It is a command or decision, not a category heading.
+- The recommendation is one statement in the declared display face, shaped manually into two to four lines. It is a command or decision, not a category heading.
 - The sans caveat states the real condition—hood, utilities, capacity, seating, plan, availability, or another verified constraint—without weakening the recommendation into vagueness.
 - Three proof columns follow one hairline. Each has a short title and one compact sourced reason. The column widths and divider grammar remain stable.
 - No additional card grid, secondary hero, or decorative callout is added below the proof row.
@@ -145,7 +146,8 @@ Composition locks prevent redesign drift; the following checks prevent renderer 
 
 - A recipe becomes canonical only after Andrew approves a clean rendered page, not a source file alone.
 - Store the clean approved PNG beside the recipe when available. The screenshots reviewed on July 17, 2026 contained viewer overlays and therefore establish preference and composition, but are not yet pixel-comparison masters.
-- The saved Sudley Manor v12–v14 PDFs demonstrate composition drift across revisions. They are evidence for the need for recipes, not interchangeable gold masters.
+- The July 17 screenshot review approves the evidence-page layout and chart grammar plus the recommendation page's photographic direction, dark field, cream copy, blush accent, and oversized-number behavior. The headline fonts are liked but are not Andrew's locked favorites; they must be selected separately for the next version.
+- Sudley Manor v14 is the declared original factual and narrative baseline for this review. The saved PDF revisions demonstrate composition drift and are evidence for the need for recipes, not interchangeable gold masters.
 - The embedded-font audit confirms a real register change rather than a fallback accident: v12 and v13 use Playfair Display, DM Sans, and DM Mono; v14 uses Newsreader, Manrope, and IBM Plex Mono. A version series must declare one register and may not swap it silently between exports.
 - Exact margins, point sizes, and region ratios should be measured from the next clean approved export rather than guessed from a screenshot.
 - Any proposed recipe change gets a new version ID, a before/after proof sheet, and a short reason. Content updates inside the locked frame retain the existing version.

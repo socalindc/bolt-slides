@@ -12,6 +12,14 @@
       "deliveryStatus": "not-vendored"
     },
     {
+      "id": "authored-advisory-restrained",
+      "display": "Newsreader",
+      "support": "Manrope",
+      "mono": "IBM Plex Mono",
+      "designStatus": "proven-sudley-v14",
+      "deliveryStatus": "verified-embedded-pdf"
+    },
+    {
       "id": "stick-interactive",
       "display": "Newsreader",
       "support": "Manrope",
@@ -47,7 +55,7 @@
   "certifiedAlternates": [],
   "families": [
     {"family":"Petrona","role":["display","editorial"],"status":"proven-authored-advisory","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/petrona","license":"OFL-1.1","trueItalic":true,"axes":["wght"],"deliveryStatus":"not-vendored"},
-    {"family":"Newsreader","role":["display","text"],"status":"proven-stick-interactive","secondaryStatus":"audition-authored-advisory","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/newsreader","license":"OFL-1.1","trueItalic":true,"axes":["opsz","wght"],"deliveryStatus":"google-fonts-runtime"},
+    {"family":"Newsreader","role":["display","text"],"status":"proven-stick-interactive-and-restrained-advisory","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/newsreader","license":"OFL-1.1","trueItalic":true,"axes":["opsz","wght"],"deliveryStatus":"google-fonts-runtime-and-verified-embedded-pdf"},
     {"family":"Literata","role":["display","text"],"status":"audition","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/literata","license":"OFL-1.1","trueItalic":true,"axes":["opsz","wght"]},
     {"family":"Piazzolla","role":["display","text"],"status":"audition","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/piazzolla","license":"OFL-1.1","trueItalic":true,"axes":["opsz","wght"]},
     {"family":"Alegreya","role":["display","text"],"status":"audition","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/alegreya","license":"OFL-1.1","trueItalic":true,"axes":["wght"]},
@@ -69,7 +77,7 @@
     {"family":"Lisu Bosa","role":["specialist-display"],"status":"specialist","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/lisubosa","license":"OFL-1.1","trueItalic":true,"axes":[]},
     {"family":"Hedvig Letters Serif","role":["specialist-display"],"status":"specialist","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/hedviglettersserif","license":"OFL-1.1","trueItalic":false,"axes":["opsz"]},
     {"family":"Instrument Sans","role":["support"],"status":"proven-authored-advisory","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/instrumentsans","license":"OFL-1.1","trueItalic":true,"axes":["wdth","wght"]},
-    {"family":"Manrope","role":["support","interface"],"status":"proven-stick-interactive","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/manrope","license":"OFL-1.1","trueItalic":false,"axes":["wght"],"deliveryStatus":"google-fonts-runtime"},
+    {"family":"Manrope","role":["support","interface"],"status":"proven-stick-interactive","secondaryStatus":"proven-sudley-v14-advisory","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/manrope","license":"OFL-1.1","trueItalic":false,"axes":["wght"],"deliveryStatus":"google-fonts-runtime-and-verified-embedded-pdf"},
     {"family":"DM Sans","role":["support","text"],"status":"proven-vault-print-editorial","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/dmsans","license":"OFL-1.1","trueItalic":true,"axes":["opsz","wght"]},
     {"family":"Space Grotesk","role":["support","interface"],"status":"proven-becane-editorial-terminal","secondaryStatus":"contextual-war-room","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/spacegrotesk","license":"OFL-1.1","trueItalic":false,"axes":["wght"]},
     {"family":"Inter","role":["support","interface"],"status":"proven-editorial-magazine","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/inter","license":"OFL-1.1","trueItalic":true,"axes":["opsz","slnt","wght"]},
@@ -79,7 +87,7 @@
     {"family":"Geologica","role":["support"],"status":"audition","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/geologica","license":"OFL-1.1","trueItalic":false,"axes":["CRSV","SHRP","slnt","wght"]},
     {"family":"Pathway Extreme","role":["support"],"status":"audition","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/pathwayextreme","license":"OFL-1.1","trueItalic":true,"axes":["opsz","wdth","wght"]},
     {"family":"JetBrains Mono","role":["mono","evidence"],"status":"proven-authored-advisory","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/jetbrainsmono","license":"OFL-1.1","trueItalic":true,"axes":["wght"]},
-    {"family":"IBM Plex Mono","role":["mono","interface","evidence"],"status":"proven-stick-interactive","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/ibmplexmono","license":"OFL-1.1","trueItalic":true,"axes":[],"deliveryStatus":"google-fonts-runtime"},
+    {"family":"IBM Plex Mono","role":["mono","interface","evidence"],"status":"proven-stick-interactive","secondaryStatus":"proven-sudley-v14-advisory","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/ibmplexmono","license":"OFL-1.1","trueItalic":true,"axes":[],"deliveryStatus":"google-fonts-runtime-and-verified-embedded-pdf"},
     {"family":"DM Mono","role":["mono","evidence"],"status":"proven-vault-print-editorial","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/dmmono","license":"OFL-1.1","trueItalic":true,"axes":[]},
     {"family":"Martian Mono","role":["mono","evidence"],"status":"audition","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/martianmono","license":"OFL-1.1","trueItalic":false,"axes":["wdth","wght"]},
     {"family":"Azeret Mono","role":["mono","evidence"],"status":"audition","source":"Google Fonts","upstream":"https://github.com/google/fonts/tree/main/ofl/azeretmono","license":"OFL-1.1","trueItalic":true,"axes":["wght"]},

@@ -84,16 +84,18 @@ Choose one pack per artifact. Do not mix palette worlds slide by slide. Modes ma
 
 Typography has contextual defaults and approval tiers. Do not confuse an interesting typeface with a proven choice, and do not erase a successful artifact-specific voice in pursuit of false consistency.
 
-1. **Proven registers:** Use the approved register that matches the artifact. The repository has two current project controls, and Andrew's vault contributes three additional benchmark registers that have already succeeded in real work. Proven does not mean universal.
+1. **Proven registers:** Use the approved register that matches the artifact. The repository has three current contextual controls built from two font stacks, and Andrew's vault contributes three additional benchmark registers that have already succeeded in real work. Proven does not mean universal.
 2. **Artifact continuity:** An existing artifact that already has a proven register keeps it unless Andrew asks for a change or the register demonstrably fails the content, language, or delivery format. `design-git.md` is not permission to restyle successful work automatically.
-3. **Certified alternates:** A maximum of three additional complete registers may live here. This tier is currently empty. A register enters it only after Andrew approves a real-content specimen and it passes web, mobile, PDF, and PPTX delivery checks.
-4. **Audition bench:** Promising open-source families documented in [`design/typography/library.md`](design/typography/library.md). These are candidates, not automatic design permissions.
-5. **Specialist shelf:** Condensed, poster, blackletter-adjacent, high-contrast, or otherwise expressive faces approved for one named job such as a cover, giant numeral, map label, section break, or finale. A specialist does not silently spread through the artifact.
-6. **Rejected archive:** Failed real-content tests stay recorded so later agents do not keep proposing the same mismatch as a fresh idea.
+3. **Separate approvals:** Andrew may approve a composition, chart grammar, image direction, palette, numeral treatment, or typeface independently. Approval of one is never silent approval of the others. Record the approved mechanisms explicitly.
+4. **Certified alternates:** A maximum of three additional complete registers may live here. This tier is currently empty. A register enters it only after Andrew approves a real-content specimen and it passes web, mobile, PDF, and PPTX delivery checks.
+5. **Audition bench:** Promising open-source families documented in [`design/typography/library.md`](design/typography/library.md). These are candidates, not automatic design permissions.
+6. **Specialist shelf:** Condensed, poster, blackletter-adjacent, high-contrast, or otherwise expressive faces approved for one named job such as a cover, giant numeral, map label, section break, or finale. A specialist does not silently spread through the artifact.
+7. **Rejected archive:** Failed real-content tests stay recorded so later agents do not keep proposing the same mismatch as a fresh idea.
 
 | Proven register | Display voice | Supporting voice | Data and furniture | Use |
 | --- | --- | --- | --- | --- |
-| Authored advisory | Petrona | Instrument Sans | JetBrains Mono | Client reports, persuasive analysis, property evidence, hospitality, PDF, and PPTX work |
+| Authored advisory — dramatic | Petrona | Instrument Sans | JetBrains Mono | Persuasive reports, cinematic recommendation pages, hero numerals, hospitality, PDF, and PPTX work |
+| Authored advisory — restrained | Newsreader | Manrope | IBM Plex Mono | Sentence-led recommendations, quiet evidence pages, mixed upright/italic phrasing, and analytical report modes |
 | Stick interactive | Newsreader | Manrope | IBM Plex Mono | Stick Deck, interactive slide systems, web-based editorial storytelling, and presentation chrome |
 | Vault print editorial | Playfair Display | DM Sans | DM Mono | Continuing the confirmed cream/rust/ink print benchmark or explicitly requesting that established voice |
 | Bécane editorial terminal | Instrument Serif | Space Grotesk | JetBrains Mono | Light market-intelligence microsites, data-journalism reports, and continuous interactive arguments |
@@ -101,7 +103,8 @@ Typography has contextual defaults and approval tiers. Do not confuse an interes
 
 - Use one display family, one supporting family, and one mono family at most.
 - A deliberately scoped specialist may replace the display face for one named moment after approval; it does not create a second deck-wide register.
-- Choose the register before composing. Do not mix Petrona and Newsreader inside one artifact merely because both are approved.
+- Choose and declare the register before composing. Petrona and Newsreader are alternative authored-advisory modes; do not mix them inside one artifact merely because both are approved.
+- The July 17 Sudley Manor screenshots approve the evidence layout, chart grammar, photographic direction, dark field, cream copy, blush accent, and oversized-number behavior. Their headline faces are acceptable references, not locked favorites. Reusing those compositions requires a separate headline-font decision.
 - Treat italics as a change of voice: qualifier, counterpoint, or editorial aside. Never add them merely to make a page look designed.
 - Let one phrase dominate. Supporting text should be visibly quieter.
 - Set major line breaks manually. A headline is not finished until its shape, rhythm, and final exported wrap have been inspected.
@@ -115,8 +118,17 @@ Typography has contextual defaults and approval tiers. Do not confuse an interes
 - Begin principal headlines around weight 450–600, with compact line height, restrained negative tracking, and manually shaped breaks. Petrona exposes a weight axis, not optical size; tune size, weight, tracking, and leading manually and inspect the final export.
 - Use the true italic for complete qualifiers, counterpoints, or editorial asides. Keep it quieter than the principal claim.
 - Large addresses and singular hero figures may use Petrona when they act as editorial statements. Aligned tables, repeated metrics, source furniture, and calculations belong in Instrument Sans or JetBrains Mono.
+- Petrona's success in a giant `7821` or other display figure does not require Petrona to carry the surrounding sentence headline. Approve numeral behavior and headline voice separately.
 - Use Instrument Sans for explanatory prose, charts, maps, tables, and annotations. Use JetBrains Mono for evidence labels, citations, calculations, and compact metadata.
 - Avoid thin Petrona weights on photography, low-contrast fields, projected slides, or small type. Never synthesize bold or italic styles.
+
+#### Newsreader advisory register
+
+- The Sudley Manor v14 dark recommendation panel proves Newsreader Medium, Newsreader Italic, Manrope, and IBM Plex Mono as a restrained authored-advisory register. It is not limited to Stick Deck.
+- Use Newsreader for sentence-led editorial claims, elegant mixed upright/italic phrasing, and large identifiers that need authority without the more dramatic Petrona voice. The `Chase 7821, the former Grato box.` treatment is an approved reference.
+- Use the true italic as a colored counterphrase when it changes voice or emphasis. The blush treatment is approved; the italic should remain structurally connected to the upright sentence rather than becoming decoration.
+- Use Manrope for explanatory prose and IBM Plex Mono for kickers, availability labels, source furniture, and compact technical facts.
+- The same families may serve Stick interactive work, but advisory and interactive artifacts require separate output-profile values for size, measure, leading, spacing, and furniture. Sharing a stack does not mean sharing a typescale.
 
 #### Stick interactive register
 
@@ -138,7 +150,7 @@ Typography has contextual defaults and approval tiers. Do not confuse an interes
 
 #### Type audition
 
-Never approve a type register from an alphabet specimen alone. Compare it directly with the relevant proven control using the same size, width, color, and line breaks: Petrona for authored advisory work, Newsreader for Stick-like interactive work, or the named vault benchmark when continuing one of those established systems. Test the real property or product name, longest headline, address or identifier, lowercase `a` and `g`, italic sentence, uppercase furniture, dense paragraph, table row, source note, and representative figures such as `7821`, `$93,903.60`, `7.25%`, `3,210 RSF → 3,061 RSF`, and `47.6% HISPANIC / LATINO`. Inspect tabular alignment rather than assuming it from the family name.
+Never approve a type register from an alphabet specimen alone. Compare it directly with the relevant proven control using the same size, width, color, and line breaks: Petrona for dramatic authored advisory work, Newsreader for restrained advisory or Stick-like interactive work, or the named vault benchmark when continuing one of those established systems. Test the real property or product name, longest headline, address or identifier, lowercase `a` and `g`, italic sentence, uppercase furniture, dense paragraph, table row, source note, and representative figures such as `7821`, `$93,903.60`, `7.25%`, `3,210 RSF → 3,061 RSF`, and `47.6% HISPANIC / LATINO`. Inspect tabular alignment rather than assuming it from the family name.
 
 Only open an audition when the proven register cannot express the requested voice or fails a real requirement. The first audition is a neutral font atlas. Only finalists advance to a real cover, evidence page, finale, and 390 × 844 mobile specimen. Promotion requires visual approval plus successful export checks; novelty, popularity, a Google Fonts listing, or an attractive alphabet sheet is not enough.
 

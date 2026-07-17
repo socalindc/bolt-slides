@@ -1,20 +1,19 @@
 # Typography library
 
-This is the audition catalog for the editorial design system. It is intentionally broader than `design-git.md`, but it is not a menu of pre-approved replacements. The repository has two current project controls, and Andrew's read-only vault records three additional benchmark registers that are proven in their named contexts.
+This is the audition catalog for the editorial design system. It is intentionally broader than `design-git.md`, but it is not a menu of pre-approved replacements. The repository has three proven contexts built from two current font stacks, and Andrew's read-only vault records three additional benchmark registers that are proven in their named contexts.
 
 Last reviewed: July 17, 2026.
 
-## Authored-advisory preference signal
+## Authored-advisory preference signals
 
-The approved Sudley Manor work establishes the Petrona-side target:
+The approved Sudley Manor work establishes two compatible but separate targets:
 
-- Warm, literary, and substantial rather than fragile or fashion-editorial.
-- Moderate contrast, broad confident headline shapes, and numerals with authority.
-- A true italic that can provide a softer countervoice.
+- **Petrona dramatic:** warm, literary, and substantial; broad confident headline shapes; hero numerals with authority; a true italic for a softer countervoice.
+- **Newsreader restrained:** newsroom intelligence; elegant sentence-led claims; strong upright/italic interplay; large identifiers with authority but less theatricality.
 - Enough character to feel authored, without turning commercial analysis into costume.
 - Reliable behavior across covers, evidence pages, dense prose, tables, PDF, PPTX, web, and mobile.
 
-Gloock failed because it moved too far toward high-contrast fashion editorial. Besley failed because it moved too far toward literal period Americana. The useful search area for authored advisory work lies between those poles. This finding does not invalidate the existing Stick register.
+Gloock failed because it moved too far toward high-contrast fashion editorial. Besley failed because it moved too far toward literal period Americana. The useful search area for authored advisory work lies between those poles. Newsreader/Manrope/IBM Plex Mono is now proven both for Stick interactive work and for the restrained Sudley advisory mode; each context still needs its own typescale and output profile.
 
 ## Status language
 
@@ -31,7 +30,8 @@ Gloock failed because it moved too far toward high-contrast fashion editorial. B
 
 | Context | Display | Supporting | Data | Why it works | Status |
 | --- | --- | --- | --- | --- | --- |
-| Authored advisory | [Petrona](https://fonts.google.com/specimen/Petrona) | [Instrument Sans](https://fonts.google.com/specimen/Instrument+Sans) | [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) | Warm editorial authority, distinctive figures, genuine italics, and a calm modern chassis | Proven |
+| Authored advisory — dramatic | [Petrona](https://fonts.google.com/specimen/Petrona) | [Instrument Sans](https://fonts.google.com/specimen/Instrument+Sans) | [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) | Warm editorial authority, distinctive figures, genuine italics, and a calm modern chassis | Proven |
+| Authored advisory — restrained | [Newsreader](https://fonts.google.com/specimen/Newsreader) | [Manrope](https://fonts.google.com/specimen/Manrope) | [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) | Sentence-led editorial authority, elegant italic counterphrases, readable prose, and precise technical furniture | Proven in Sudley v14 |
 | Stick interactive | [Newsreader](https://fonts.google.com/specimen/Newsreader) | [Manrope](https://fonts.google.com/specimen/Manrope) | [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) | Editorial character inside a responsive product frame, with clear UI copy and precise system furniture | Proven |
 | Vault print editorial | [Playfair Display](https://fonts.google.com/specimen/Playfair+Display) | [DM Sans](https://fonts.google.com/specimen/DM+Sans) | [DM Mono](https://fonts.google.com/specimen/DM+Mono) | Confirmed cream/rust/ink print voice with a strong real italic and precise editorial furniture | Proven in named benchmark |
 | Bécane editorial terminal | [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif) | [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) | [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) | Restrained display contrast, clean UI prose, and emphatic data structure for light interactive reports | Proven in named benchmark |
@@ -39,11 +39,11 @@ Gloock failed because it moved too far toward high-contrast fashion editorial. B
 
 ## Petrona neighbors
 
-These are the highest-value direct challengers to the authored-advisory control. Compare them with identical Sudley Manor copy before considering any other shelf. Newsreader is already proven for Stick interactive work; its audition status below applies only to replacing Petrona in authored advisory work.
+These are the highest-value direct challengers to the dramatic Petrona control. Compare them with identical Sudley Manor copy before considering any other shelf. Newsreader is already proven for Stick interactive work and restrained authored advisory work; audition it only when proposing that it replace Petrona's deliberately more dramatic role.
 
 | Family | Character | Useful strengths | Watch-outs | Suggested chassis | Status |
 | --- | --- | --- | --- | --- | --- |
-| [Newsreader](https://fonts.google.com/specimen/Newsreader) | Newsroom intelligence | Optical size, broad display-to-text range, excellent italic | Can become sober in authored reports; already proven with Manrope and IBM Plex Mono in Stick | Funnel Sans + Azeret Mono | Proven for Stick; audition for advisory |
+| [Newsreader](https://fonts.google.com/specimen/Newsreader) | Newsroom intelligence | Optical size, broad display-to-text range, excellent italic | Its restraint is a feature in the approved advisory mode but can underplay a deliberately cinematic page | Manrope + IBM Plex Mono | Proven for Stick and restrained advisory; audition only against dramatic Petrona mode |
 | [Literata](https://fonts.google.com/specimen/Literata) | Literary muscle | Optical size, strong long-form reading, distinctive upright and italic | More bookish than Petrona; verify address and numeral voice | Afacad Flux + Sometype Mono | Audition |
 | [Piazzolla](https://fonts.google.com/specimen/Piazzolla) | Warm spatial character | Memorable silhouettes, optical size, broad weight range | Can feel mannered in dense tables | Geologica + Geist Mono | Audition |
 | [Alegreya](https://fonts.google.com/specimen/Alegreya) | Calligraphic movement | Expressive true italic, lively headlines, cultured tone | Movement can become busy in tightly packed evidence | Funnel Sans + Martian Mono | Audition |
@@ -146,7 +146,7 @@ These candidates expand beyond Google Fonts. Import only from the official upstr
 
 ## Selection sequence
 
-1. Start with the relevant proven control: Petrona for authored advisory work, Newsreader for Stick-like interactive work, or the exact named vault register when the brief intentionally continues that benchmark.
+1. Start with the relevant proven control: Petrona for dramatic authored advisory work, Newsreader for restrained advisory or Stick-like interactive work, or the exact named vault register when the brief intentionally continues that benchmark.
 2. Preserve the existing register when the artifact already works. Open a new search only when the brief or delivery requirements expose a real limitation.
 3. Choose the nearest shelf that fits the desired voice: Petrona neighbor, sturdy editorial, interactive editorial, or specialist.
 4. Build a neutral real-copy atlas with identical type size, width, line breaks, and color.
