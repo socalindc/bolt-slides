@@ -49,20 +49,30 @@ function EditorialHeading({
   );
 }
 
-function OpenItem({
+function WireItem({
   number,
   title,
+  source,
+  action,
   children,
 }: {
   number: string;
   title: string;
+  source: string;
+  action: string;
   children: ReactNode;
 }) {
   return (
-    <article className="open-item">
+    <article className="wire-item">
       <span className="open-item-number">{number}</span>
-      <h3>{title}</h3>
-      <p>{children}</p>
+      <div className="wire-copy">
+        <h3>{title}</h3>
+        <p>{children}</p>
+      </div>
+      <div className="wire-status">
+        <span>{source}</span>
+        <strong>{action}</strong>
+      </div>
     </article>
   );
 }
@@ -201,33 +211,70 @@ export default function App() {
       </Slide>
 
       <Slide
-        className="redline-slide"
+        className="dossier-slide"
         nav="The error"
         notes="The drafters' own note — 'this does not match the excel support' — is still sitting in the lease text. Tenant's counsel will find this; better that v4 fixes it first."
       >
-        <div className="redline-meta">
-          <span>04 / redline alert</span>
+        <div className="dossier-ticker">
+          <span>Material discrepancy</span>
+          <span>Case 04 — Base rent schedule</span>
           <span>§4(a)(ii)</span>
         </div>
-        <div className="redline-composition">
-          <Reveal>
-            <p className="redline-label">Phantom rent in the 10-year schedule</p>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <div className="redline-number">
-              <CountUp to={93904} prefix="$" />
+        <div className="dossier-composition">
+          <div className="dossier-finding">
+            <Reveal>
+              <div className="dossier-stamp">Rent file / variance confirmed</div>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <h2>
+                Phantom rent in the
+                <em>10-year schedule.</em>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.12}>
+              <div className="dossier-number">
+                <CountUp to={93904} prefix="$" />
+              </div>
+            </Reveal>
+            <Reveal delay={0.18}>
+              <p>
+                Every row uses Chicken &amp; Whiskey’s <strong>3,210 RSF</strong>,
+                not the <strong>3,061 RSF</strong> demised in this lease.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.16} className="dossier-evidence">
+            <div className="dossier-tab">Evidence / RSF-001</div>
+            <dl>
+              <div>
+                <dt>Draft basis</dt>
+                <dd>3,210 RSF</dd>
+              </div>
+              <div>
+                <dt>Executed basis</dt>
+                <dd>3,061 RSF</dd>
+              </div>
+              <div>
+                <dt>Phantom area</dt>
+                <dd>+149 RSF</dd>
+              </div>
+              <div className="is-material">
+                <dt>10-year exposure</dt>
+                <dd>$93,903.60</dd>
+              </div>
+              <div>
+                <dt>Required action</dt>
+                <dd>Recompute all 15 years</dd>
+              </div>
+            </dl>
+            <div className="dossier-file-code" aria-hidden="true">
+              <i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
             </div>
           </Reveal>
-          <Reveal delay={0.18}>
-            <p className="redline-explainer">
-              Every row uses Chicken &amp; Whiskey’s <strong>3,210 RSF</strong>,
-              not the <strong>3,061 RSF</strong> demised in this lease.
-            </p>
-          </Reveal>
         </div>
-        <div className="redline-foot">
-          Published annuals vs. $55.00 × 3,061 RSF at 3% compounding
-          <span>Corrected schedule / 07.16 abstract</span>
+        <div className="dossier-foot">
+          <span>Published annuals vs. $55.00 × 3,061 RSF at 3% compounding</span>
+          <strong>Confirmed / 07.16.26 abstract</strong>
         </div>
       </Slide>
 
@@ -266,16 +313,24 @@ export default function App() {
       />
 
       <Slide
-        className="table-slide corrected-slide"
+        className="table-slide corrected-slide ledger-slide"
         nav="Corrected"
         notes="This is the table that goes in the fix-list email — v4's Exhibit math, precomputed. Full 15-year schedule is in the abstract."
       >
-        <EditorialHeading
-          folio="06"
-          eyebrow="Corrected schedule"
-          title="What v4’s rent table must say."
-          className="compact"
-        />
+        <header className="ledger-heading">
+          <div className="ledger-title">
+            <div className="editorial-meta">
+              <span className="editorial-folio">06</span>
+              <span className="editorial-eyebrow">Corrected rent ledger</span>
+            </div>
+            <h2>What v4’s rent table must say.</h2>
+          </div>
+          <div className="ledger-balance">
+            <span>Variance to remove</span>
+            <strong>$93,903.60</strong>
+            <small>10-year on-grade total</small>
+          </div>
+        </header>
         <Table
           columns={[
             'Lease year',
@@ -298,12 +353,13 @@ export default function App() {
       </Slide>
 
       <Contrast
+        className="term-contrast-slide"
         nav="LOI conformity"
-        kicker="07 / term-by-term check"
-        title="Three places the draft left the signed deal"
+        kicker="07 / contract conformity"
+        title="The draft versus the deal actually signed."
         left={{
-          label: 'v3 draft',
-          title: 'Re-traded in drafting',
+          label: 'V3 draft / departed',
+          title: 'Re-traded on paper',
           points: [
             'Guaranty capped at 12 months — cuts Y1–5 coverage by two-thirds',
             'Second renewal: the greater of 103% or market — a floor, no ceiling',
@@ -311,8 +367,8 @@ export default function App() {
           ],
         }}
         right={{
-          label: 'Executed LOI',
-          title: 'What v4 must restore',
+          label: 'Executed LOI / controls',
+          title: 'Restore the signed terms',
           points: [
             'Guaranty of base + NNN with the burndown — no cap',
             'Second renewal: market rent capped at 106% of the last year',
@@ -360,28 +416,43 @@ export default function App() {
       >
         <EditorialHeading
           folio="09"
-          eyebrow="Still open"
-          title="Three confirmations before execution."
-          detail="None blocks the fix-list email. All three belong on the closing checklist."
+          eyebrow="The closing wire"
+          title="Three confirmations still open."
+          detail="None blocks the fix-list email. Route each to an owner before execution."
         />
-        <div className="open-items-grid">
+        <div className="open-items-wire">
           <Build at={1}>
-            <OpenItem number="01" title="Commercial Lot RSF">
+            <WireItem
+              number="01"
+              title="Commercial Lot RSF"
+              source="Body §4 / Exhibit D"
+              action="Measure"
+            >
               The body’s 10.73% share and Exhibit D’s 5.36% imply different
               buildings. One measured total settles it.
-            </OpenItem>
+            </WireItem>
           </Build>
           <Build at={2}>
-            <OpenItem number="02" title="Second guarantor">
+            <WireItem
+              number="02"
+              title="Second guarantor"
+              source="Exhibit G"
+              action="Name"
+            >
               Exhibit G’s signature block is blank. Confirm Laura Krahl holds
               at least 20% and name her.
-            </OpenItem>
+            </WireItem>
           </Build>
           <Build at={3}>
-            <OpenItem number="03" title="EagleBank as LOC issuer">
+            <WireItem
+              number="03"
+              title="EagleBank as LOC issuer"
+              source="LOC requirements"
+              action="Approve"
+            >
               The lease requires an A- / well-capitalized bank. Confirm before
               the letter is cut.
-            </OpenItem>
+            </WireItem>
           </Build>
         </div>
       </Slide>

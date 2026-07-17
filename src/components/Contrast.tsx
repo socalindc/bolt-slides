@@ -45,11 +45,13 @@ export default function Contrast({
   title,
   left,
   right,
+  className = '',
 }: {
   kicker?: string;
   title?: string;
   left: ContrastPanel;
   right: ContrastPanel;
+  className?: string;
   nav?: string;
   notes?: string;
 }) {
@@ -82,7 +84,7 @@ export default function Contrast({
     </motion.div>
   );
   return (
-    <div className="slide">
+    <div className={`slide ${className}`.trim()}>
       <div className="container">
         <Reveal>
           {kicker && (
