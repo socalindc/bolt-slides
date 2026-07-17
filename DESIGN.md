@@ -21,6 +21,25 @@ These choices remain stable across every mode.
 
 Keep one accent per artifact. A semantic mode may tint that accent, but it must not introduce a rainbow of unrelated colors.
 
+### Approved palette packs
+
+Paper, ink, and oxblood remain the default house palette. When the audience or argument needs a materially different world, replace the complete palette for the entire artifact rather than recoloring individual slides.
+
+| Pack | Surface and ink | Accent | Best fit |
+| --- | --- | --- | --- |
+| Forest and tan | Deep forest or charcoal with warm bone | Sage `#A3B18A` or tan `#C5A880` | Nature-forward places, suburban communities, grounded strategy |
+| Trust navy and copper | Navy `#0D2A4A` with warm paper | Copper `#B87333` | Institutional reports, professional-services audiences, owner materials |
+| Espresso and aubergine | Warm white `#F7F3ED` with espresso `#3C2A21` | Aubergine `#7A1E3A` | Restrained luxury, decisive finales, premium alternatives to gold-on-black |
+
+Choose one pack per artifact. Do not mix palette worlds slide by slide. Modes may alter composition and emphasis, but they stay inside the chosen pack.
+
+### Token architecture
+
+- Treat raw color values as primitives and expose them to components through the existing semantic roles: `--bg`, `--fg`, `--fg-muted`, `--fg-faint`, and `--primary`.
+- Components consume semantic roles rather than introducing one-off hex values.
+- Palette packs set the semantic roles at the artifact root. Mode-level overrides may adjust those roles only when the content requires a semantic distinction.
+- Repeated spacing, type, rule, radius, and motion decisions should also become tokens or reusable primitives instead of drifting between views.
+
 ### Typography
 
 - Display and editorial headlines: Newsreader. Use weight 400–500, tight tracking, and balanced line breaks.
@@ -85,6 +104,19 @@ Use no more than three expressive modes in a short deck. Ledger, Index, Timeline
 - Numbers align and use tabular figures.
 - Empty space is part of the hierarchy; do not fill it reflexively.
 - Borrow mechanisms from references, never their names, mastheads, colors, or copy.
+
+## Anti-default discipline
+
+- Prefer a named, inspected reference over adjectives such as “clean,” “modern,” or “premium.” Extract its mechanisms and map each one to a real content need.
+- Do not default to purple-blue gradients, electric cyan on dark, gold-on-black, generic glassmorphism, repeated equal-card grids, decorative pills, or an eyebrow label above every section.
+- A fashionable treatment is not forbidden merely because it is overexposed, but it needs a content, brand, or audience reason. Familiarity alone is not a reason.
+- Use one coherent visual register per artifact. Do not mix editorial, terminal, luxury, and dashboard conventions simply to create variety.
+
+## The craft test
+
+Before shipping, ask whether another deck's content could replace the current content without requiring a meaningful change to the composition. If the answer is yes, the work is still template-driven.
+
+Every principal view needs at least one content-specific art-direction decision: measured geometry, an evidence hierarchy, a purposeful crop, a semantic comparison, a meaningful sequence, or another gesture that could only belong to this material. Craft is not extra ornament; it is visible evidence that the design was fitted to the audience, argument, and action.
 
 ## Responsive translation
 
