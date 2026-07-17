@@ -6,20 +6,20 @@
    =================================================================== */
 :root {
   /* Surfaces */
-  --bg: #05070a;
-  --bg-grad-1: rgba(79, 229, 176, 0.12);
-  --bg-grad-2: rgba(41, 192, 240, 0.08);
-  --surface: rgba(255, 255, 255, 0.045);
-  --surface-2: rgba(255, 255, 255, 0.07);
+  --bg: #f4f2e8;
+  --bg-grad-1: rgba(194, 89, 47, 0.07);
+  --bg-grad-2: rgba(220, 150, 112, 0.09);
+  --surface: rgba(28, 20, 18, 0.035);
+  --surface-2: rgba(28, 20, 18, 0.06);
 
   /* Ink */
-  --fg: #f4f7fa;
-  --fg-muted: #9aa4b2;
-  --fg-faint: #626d7d;
+  --fg: #1c1412;
+  --fg-muted: #4c4840;
+  --fg-faint: #8a8378;
 
   /* Hairlines */
-  --hair: rgba(255, 255, 255, 0.1);
-  --hair-2: rgba(255, 255, 255, 0.06);
+  --hair: rgba(28, 20, 18, 0.14);
+  --hair-2: rgba(28, 20, 18, 0.08);
 
   /* Presentation chrome — separate from slide surfaces so light themes can
      intentionally choose light or dark controls without editing base.css. */
@@ -33,31 +33,28 @@
   --chrome-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8);
 
   /* Accent — ONE accent. May be a 2–4 stop gradient within ~80° of hue. */
-  --primary: #4fe5b0;
+  --primary: #c2592f;
   --accent: linear-gradient(
     115deg,
-    #c8f56e 0%,
-    #5aeeb0 42%,
-    #34dcd8 74%,
-    #29c0f0 100%
+    #a13f1c 0%,
+    #c2592f 48%,
+    #dc9670 100%
   );
-  --accent-ink: #04140e;
+  --accent-ink: #f8f4ea;
 
   /* Radius */
-  --radius: 22px;
-  --radius-sm: 12px;
-  --radius-lg: 26px;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 18px;
 
   /* Depth */
-  --shadow: 0 50px 120px -50px rgba(0, 0, 0, 0.9);
-  --glow: 0 30px 80px -40px rgba(79, 229, 176, 0.5);
+  --shadow: 0 40px 90px -50px rgba(28, 20, 18, 0.35);
+  --glow: 0 26px 70px -40px rgba(194, 89, 47, 0.4);
 
   /* Type */
-  --font-head: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display',
-    sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text',
-    sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-head: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
 
   /* Motion */
   --dur: 0.4s;
@@ -65,8 +62,8 @@
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Atmosphere */
-  --grain: 0.035;
-  --vignette: rgba(0, 0, 0, 0.22);
+  --grain: 0.02;
+  --vignette: rgba(28, 20, 18, 0.08);
 
   /* Responsive gutter — fluid side / vertical padding */
   --gutter: clamp(28px, 6vw, 120px);

@@ -51,6 +51,25 @@ describe('Deck hardening', () => {
     expect(view.queryByText('Second slide')).toBeNull();
   });
 
+  it('pages on a horizontal touch swipe', async () => {
+    const view = render(
+      <Deck id="swipe-test">
+        <Slide>First slide</Slide>
+        <Slide>Second slide</Slide>
+      </Deck>
+    );
+
+    const activeSlide = view.getByText('First slide');
+    fireEvent.touchStart(activeSlide, {
+      touches: [{ clientX: 300, clientY: 400 }],
+    });
+    fireEvent.touchEnd(activeSlide, {
+      changedTouches: [{ clientX: 100, clientY: 408 }],
+    });
+
+    await waitFor(() => expect(view.getByText('Second slide')).toBeTruthy());
+  });
+
   it('preserves interactive slide state after navigating away and back', async () => {
     const view = render(
       <Deck id="state-test">
@@ -65,11 +84,14 @@ describe('Deck hardening', () => {
     fireEvent.click(counter);
     expect(view.getByText('Count 1')).toBeTruthy();
     counter.blur();
+    const firstFrame = counter.closest('.slide-stage') as HTMLDivElement;
 
     fireEvent.keyDown(window, { key: 'ArrowRight' });
     await waitFor(() => expect(view.getByText('Second slide')).toBeTruthy());
+    expect(firstFrame.hidden).toBe(true);
     fireEvent.keyDown(window, { key: 'ArrowLeft' });
     await waitFor(() => expect(view.getByText('Count 1')).toBeTruthy());
+    expect(firstFrame.hidden).toBe(false);
   });
 
   it('shows nav labels in the sidebar', async () => {

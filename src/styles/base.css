@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
 
 /* ── Reset & page ───────────────────────────────────────────────── */
 *,
@@ -13,8 +13,8 @@ body,
   margin: 0;
 }
 html {
-  color-scheme: dark;
-} /* set "light" for light decks */
+  color-scheme: light;
+} /* set "dark" for dark decks */
 body {
   background: var(--bg);
   color: var(--fg);
@@ -45,7 +45,7 @@ body {
 }
 .slide-stage.inactive {
   z-index: 0;
-  visibility: hidden;
+  display: none;
   pointer-events: none;
 }
 @keyframes slideIn {

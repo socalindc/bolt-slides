@@ -127,6 +127,7 @@ function LiveSlide({
         ref={frameRef}
         className={'slide-stage' + (active ? ' active' : ' inactive')}
         aria-hidden={!active}
+        hidden={!active}
       >
         <SlideErrorBoundary>{children}</SlideErrorBoundary>
       </div>
