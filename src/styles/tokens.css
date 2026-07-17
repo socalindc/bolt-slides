@@ -6,55 +6,50 @@
    =================================================================== */
 :root {
   /* Surfaces */
-  --bg: #f4f2e8;
-  --bg-grad-1: rgba(194, 89, 47, 0.07);
-  --bg-grad-2: rgba(220, 150, 112, 0.09);
-  --surface: rgba(28, 20, 18, 0.035);
-  --surface-2: rgba(28, 20, 18, 0.06);
+  --bg: #eee9dd;
+  --bg-grad-1: rgba(159, 62, 44, 0.055);
+  --bg-grad-2: rgba(89, 68, 57, 0.04);
+  --surface: rgba(255, 252, 244, 0.48);
+  --surface-2: rgba(255, 252, 244, 0.72);
 
   /* Ink */
-  --fg: #1c1412;
-  --fg-muted: #4c4840;
-  --fg-faint: #8a8378;
+  --fg: #201a17;
+  --fg-muted: #5d554e;
+  --fg-faint: #91877f;
 
   /* Hairlines */
-  --hair: rgba(28, 20, 18, 0.14);
-  --hair-2: rgba(28, 20, 18, 0.08);
+  --hair: rgba(32, 26, 23, 0.22);
+  --hair-2: rgba(32, 26, 23, 0.095);
 
   /* Presentation chrome — separate from slide surfaces so light themes can
      intentionally choose light or dark controls without editing base.css. */
-  --chrome-bg: rgba(28, 28, 30, 0.72);
-  --chrome-bg-strong: rgba(18, 18, 20, 0.92);
-  --chrome-fg: #e8e8ea;
-  --chrome-muted: #8e8e93;
-  --chrome-faint: #6e6e73;
+  --chrome-bg: rgba(36, 28, 25, 0.86);
+  --chrome-bg-strong: rgba(27, 21, 19, 0.96);
+  --chrome-fg: #f2ede4;
+  --chrome-muted: #b2a79f;
+  --chrome-faint: #837870;
   --chrome-hair: rgba(255, 255, 255, 0.1);
   --chrome-hover: rgba(255, 255, 255, 0.12);
   --chrome-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8);
 
   /* Accent — ONE accent. May be a 2–4 stop gradient within ~80° of hue. */
-  --primary: #c2592f;
-  --accent: linear-gradient(
-    115deg,
-    #a13f1c 0%,
-    #c2592f 48%,
-    #dc9670 100%
-  );
-  --accent-ink: #f8f4ea;
+  --primary: #9f3e2c;
+  --accent: #9f3e2c;
+  --accent-ink: #fff9ef;
 
   /* Radius */
-  --radius: 14px;
-  --radius-sm: 8px;
-  --radius-lg: 18px;
+  --radius: 2px;
+  --radius-sm: 1px;
+  --radius-lg: 6px;
 
   /* Depth */
-  --shadow: 0 40px 90px -50px rgba(28, 20, 18, 0.35);
-  --glow: 0 26px 70px -40px rgba(194, 89, 47, 0.4);
+  --shadow: 0 38px 80px -48px rgba(68, 42, 34, 0.38);
+  --glow: 0 30px 72px -48px rgba(159, 62, 44, 0.55);
 
   /* Type */
-  --font-head: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'DM Mono', ui-monospace, monospace;
+  --font-head: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
   /* Motion */
   --dur: 0.4s;
@@ -62,10 +57,10 @@
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Atmosphere */
-  --grain: 0.02;
-  --vignette: rgba(28, 20, 18, 0.08);
+  --grain: 0.035;
+  --vignette: rgba(66, 43, 34, 0.035);
 
   /* Responsive gutter — fluid side / vertical padding */
-  --gutter: clamp(28px, 6vw, 120px);
-  --gutter-y: clamp(40px, 8vh, 96px);
+  --gutter: clamp(30px, 5.4vw, 108px);
+  --gutter-y: clamp(40px, 7vh, 84px);
 }
