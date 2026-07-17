@@ -1,0 +1,4 @@
+interface:
+  display_name: "Editorial Art Direction"
+  short_description: "Apply a flexible editorial design system"
+  default_prompt: "Use $apply-editorial-art-direction to choose and implement the right editorial mode for this design."
