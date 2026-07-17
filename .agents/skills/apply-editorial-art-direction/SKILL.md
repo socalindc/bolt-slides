@@ -5,11 +5,11 @@ description: Apply this repository's editorial design system to websites, slide 
 
 # Apply editorial art direction
 
-Use the repository's `DESIGN.md` as the source of truth for its house foundation, semantic design modes, and validation contract.
+Use the repository's `design-git.md` as the source of truth for its house foundation, semantic design modes, and validation contract.
 
 ## Workflow
 
-1. Locate the repository root and read `DESIGN.md` completely.
+1. Locate the repository root and read `design-git.md` completely.
 2. Inspect the existing artifact, framework, styling system, brand assets, and interaction behavior before proposing changes.
 3. Define the job of each view in one verb: inform, compare, warn, prove, sequence, or decide.
 4. Choose the smallest set of editorial modes that fits those jobs. State the selection briefly when it involves judgment.
@@ -22,7 +22,7 @@ Use the repository's `DESIGN.md` as the source of truth for its house foundation
 - Use one dominant gesture per view.
 - Use no more than three expressive modes in a short deck.
 - Reserve Dossier, Redline, Manifesto, Terminal, and Blueprint for content that semantically warrants them.
-- Keep one accent per artifact unless `DESIGN.md` explicitly defines a semantic exception.
+- Keep one accent per artifact unless `design-git.md` explicitly defines a semantic exception.
 - Preserve facts, provenance, controls, accessibility, and existing functionality.
 - Reject reference elements that are attractive but do not improve hierarchy, comprehension, trust, or action.
 
