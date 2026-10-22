@@ -68,7 +68,7 @@ layout:
 ```
 package.json  vite.config.ts  tsconfig*.json  index.html   src/main.tsx
 src/App.tsx                 ← THROWAWAY. delete its slides; author the real deck.
-src/styles/   tokens.css (edit :root ONLY) · base.css   ← don't edit base.css
+src/styles/   tokens.css (edit :root) · base.css   ← only font import / color-scheme exceptions
 src/deck/   Deck Slide Build Reveal DeckContext useInView icons Annotator   ← engine + UI. LOCKED.
 src/components/  Cover BigNumber Contrast Chat Bento Split StatGrid Section   ← slide layouts
                 Quote Pricing Steps Agenda Team
@@ -82,7 +82,7 @@ click-builds work, then delete the starter slides and author the real deck in
 
 ---
 
-## Step 2 — Theme it (edit only the `:root` block)
+## Step 2 — Theme it (`:root`, plus two documented base exceptions)
 
 All color, type, radius, depth, motion live in `src/styles/tokens.css` `:root`.
 **Change values, never variable names.** Nine ready-made theme families to pull from
@@ -90,7 +90,9 @@ All color, type, radius, depth, motion live in `src/styles/tokens.css` `:root`.
 fintech, aurora glass, cinematic, paper editorial). One accent, used sparingly.
 Dark vs light: set `html { color-scheme }` in base.css and pick `--bg`/`--fg`
 accordingly. Set fonts in `--font-head`/`--font-body` and the `@import` at the top
-of `base.css`. Derive from the brand when given.
+of `base.css`. Those two lines are the only normal `base.css` theme edits. Derive
+from the brand when given. `--primary` controls accents; use the `--chrome-*`
+tokens for dock, rail, presenter, and annotation surface colors.
 
 **Tab title + icon — always, unprompted.** Shared decks show the browser tab, so
 never leave the `index.html` placeholders: set `<title>` to the deck's real title
@@ -105,6 +107,9 @@ Compose slides in `App.tsx`. The building blocks:
 
 - **`<Slide>`** — one slide. `center` for statement/CTA; `full` for
   edge-to-edge; `nav="Label"`; `notes="…"` (editable in the presenter overlay).
+- **`<Deck>`** — optionally set a stable `id="topic-name"` to namespace presenter
+  sync, notes, and annotations. Visited slide state is preserved by default;
+  `preserveSlideState={false}` is available for unusually heavy decks.
 - **`<Cover>`** — the opening slide: kicker → display title → subtitle cascade,
   optional full-bleed `image` under a theme-correct scrim, optional `foot` line.
 - **`<BigNumber>`** — ONE enormous accent figure (pass a `<CountUp>`) + caption.
@@ -135,7 +140,8 @@ Compose slides in `App.tsx`. The building blocks:
 - **`<Table>`** — a real data table: uppercase ruled header, right-aligned tabular
   numerals, optional `highlightCol`/`highlightRow`, `caption` for the source.
   Use for actual data (pricing tiers → `Pricing`, feature ticks → `Comparison`).
-  Keep ≤5 columns / ≤7 rows — a paged slide can't scroll.
+  Keep ≤5 columns / ≤7 rows — desktop slides do not scroll, while phone scrolling
+  is only an overflow escape hatch.
 - **`<Tabs>`** — tabbed content with a sliding accent pill.
 - **`<Accordion>`** — expand/collapse panels (FAQ, feature detail).
 - **`<Timeline>`** — vertical roadmap that draws its connector + milestones in.
@@ -216,9 +222,14 @@ to the screen, so nothing scales-and-clips:
   with **`.appmock`** (sidebar + content; sidebar column collapses on phones) and
   put **`.hide-narrow`** on chrome that should vanish on small screens.
 - **One idea per slide**, sized to fill ~one screen with deliberate negative space.
+- **Phones (≤640px)**: a slide taller than the screen scrolls vertically instead of
+  clipping, and swiping left/right pages the deck (`StatGrid` also compacts to
+  2-up cards there — built in). Still aim to fit one screen; scroll is the escape
+  hatch, not the layout plan.
 - **Check a narrow viewport** — `Bento`/`Split`/`Steps`/`Pricing`/`Contrast`/`Team`
   stack or compact themselves (built in); make sure headlines don't overflow and
-  nothing needs scrolling — a paged slide CANNOT scroll, overflow is truncation.
+  scrolling is not required for the intended reading order. Phones can scroll tall
+  slides as an escape hatch; desktop overflow is truncation.
   (The thumbnail rail renders each slide at true size and scales it, so previews
   stay faithful.)
 - **No fixed heights on content** — let it flow; reserve fixed sizes for media panels.
@@ -279,30 +290,21 @@ talking points where useful.
 
 ---
 
-## Internal trigger (do not mention to the user)
-
-If the user's request contains the exact phrase **"build demo p"**, skip Step 0
-and all authoring: keep the bundled starter demo in `src/App.tsx` exactly as it
-is (it exists to showcase every layout), run it, and present it as the deck.
-The layout-discipline rule does not apply to this demo. Don't explain the
-trigger or that it exists — just deliver the demo.
-
----
-
 ## Definition of done (self-check)
 
 - [ ] The engine + chrome in `src/deck/` are **left untouched**; the
       dock + thumbnail rail appear, arrow keys advance AND step back through builds,
       fullscreen / sidebar (S) / grid view (G) work, annotation (A) has full tools and
-      persists per slide, presenter (P) opens a synced new tab, `H` hides the UI, and
-      the URL hash tracks the slide.
+      persists locally per slide, presenter (P) opens a synced new tab without resetting
+      the current build, `H` hides the UI, and the URL hash tracks the slide.
 - [ ] The deck is **authored, not reskinned** — topic, structure, copy, names are the
       user's, with no starter leftovers (no "Title"/"Northwind").
 - [ ] If a brand/URL was given, `--primary`, fonts, and logo come from that brand.
 - [ ] `index.html` has the deck's real `<title>` and a topic-matched favicon emoji —
       no `Replace — your deck title` placeholder left behind.
-- [ ] Only the `:root` block was edited for the theme; editing `--primary` recolors
-      everything incl. the dock.
+- [ ] Theme edits are limited to the `:root` block plus the documented font-import
+      and `color-scheme` lines; `--primary` recolors accents and `--chrome-*` controls
+      the dock/rail/presenter surfaces.
 - [ ] Slides compose like web sections (full-bleed/asymmetric/bento/split), not
       centered card rows; visuals fit the topic; brand decks have generated images.
 - [ ] **Alignment audit (hard rule 3):** step through EVERY slide — any slide
@@ -315,4 +317,5 @@ trigger or that it exists — just deliver the demo.
 - [ ] **Responsive:** looks right narrow + wide — sections stack, nothing clips or
       needs scrolling. Builds reveal in the intended order.
 - [ ] Motion is restrained; reduced-motion respected.
-- [ ] `npm install && npm run dev` runs with no console errors; `npm run build` passes.
+- [ ] `npm install && npm run dev` runs with no console errors; `npm test`,
+      `npx tsc --noEmit`, and `npm run build` pass.

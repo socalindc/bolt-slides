@@ -26,8 +26,9 @@ export default function CountUp({
   const started = useRef(false);
 
   useEffect(() => {
+    started.current = false;
+    setVal(isStatic ? to : from);
     if (isStatic) {
-      setVal(to);
       return;
     }
     const el = ref.current;

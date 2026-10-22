@@ -84,7 +84,7 @@ const IconTrash = () => (
 );
 
 /* ── content anchoring ─────────────────────────────────────────────── */
-const stage = () => document.querySelector('.slide-stage');
+const stage = () => document.querySelector('.slide-stage.active');
 const viewportBox = (): Box => ({
   left: 0,
   top: 0,
@@ -137,7 +137,10 @@ function anchorAt(cx: number, cy: number): string {
 }
 /* a stroke's points mapped to client pixels at the CURRENT layout */
 function clientPts(s: Stroke): Pt[] {
-  const r = resolveAnchor(s.anchor) ?? viewportBox();
+  const r = s.anchor ? resolveAnchor(s.anchor) : viewportBox();
+  // A conditional panel may temporarily remove its anchor. Hiding the stroke
+  // is safer than silently pinning it to an unrelated viewport position.
+  if (!r) return [];
   return s.points.map((p) => ({
     x: r.left + p.x * r.width,
     y: r.top + p.y * r.height,
@@ -193,10 +196,12 @@ export default function Annotator({
   slide,
   store,
   active,
+  onChange,
 }: {
   slide: number;
   store: Record<number, Stroke[]>;
   active: boolean;
+  onChange?: (slide: number, strokes: Stroke[]) => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   if (!store[slide]) store[slide] = [];
@@ -291,6 +296,7 @@ export default function Annotator({
   }
   function commit() {
     store[slide] = strokes.current;
+    onChange?.(slide, strokes.current);
     redraw();
   }
   function erase(x: number, y: number) {
@@ -322,7 +328,11 @@ export default function Annotator({
       const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
       const cy = (Math.min(...ys) + Math.max(...ys)) / 2;
       d.anchor = anchorAt(cx, cy);
-      const r = resolveAnchor(d.anchor) ?? viewportBox();
+      let r = resolveAnchor(d.anchor);
+      if (!r) {
+        d.anchor = '';
+        r = viewportBox();
+      }
       d.points = d.points.map((p) => ({
         x: (p.x - r.left) / r.width,
         y: (p.y - r.top) / r.height,
@@ -333,13 +343,46 @@ export default function Annotator({
     // re-render after the slide's entrance motion settles (anchor boxes move)
     const t1 = window.setTimeout(redraw, 400);
     const t2 = window.setTimeout(redraw, 1100);
+    let frame = 0;
+    let settle = 0;
+    const scheduleRedraw = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(redraw);
+    };
+    const layoutChanged = () => {
+      scheduleRedraw();
+      clearTimeout(settle);
+      settle = window.setTimeout(scheduleRedraw, 420);
+    };
+    const root = stage();
+    const mutations = root ? new MutationObserver(layoutChanged) : null;
+    mutations?.observe(root!, {
+      childList: true,
+      subtree: true,
+    });
+    const resize =
+      root && typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(scheduleRedraw)
+        : null;
+    if (root && resize) resize.observe(root);
+
     window.addEventListener('resize', fit);
+    window.addEventListener('scroll', scheduleRedraw, true);
     window.addEventListener('pointerup', onUp);
+    root?.addEventListener('transitionend', scheduleRedraw, true);
+    root?.addEventListener('animationend', scheduleRedraw, true);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
+      clearTimeout(settle);
+      cancelAnimationFrame(frame);
+      mutations?.disconnect();
+      resize?.disconnect();
       window.removeEventListener('resize', fit);
+      window.removeEventListener('scroll', scheduleRedraw, true);
       window.removeEventListener('pointerup', onUp);
+      root?.removeEventListener('transitionend', scheduleRedraw, true);
+      root?.removeEventListener('animationend', scheduleRedraw, true);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -408,6 +451,7 @@ export default function Annotator({
       <canvas
         ref={canvasRef}
         className="ann-canvas"
+        aria-label="Slide annotations"
         style={{
           pointerEvents: active ? 'auto' : 'none',
           cursor: tool === 'eraser' ? 'cell' : 'crosshair',
@@ -418,6 +462,8 @@ export default function Annotator({
       {active && (
         <div
           className="ann-bar"
+          role="toolbar"
+          aria-label="Annotation tools"
           ref={barRef}
           onPointerDown={barDown}
           onPointerMove={barMove}
@@ -430,6 +476,8 @@ export default function Annotator({
               key={t.id}
               className={'ann-btn' + (tool === t.id ? ' on' : '')}
               data-tip={t.label}
+              aria-label={`Select ${t.label.toLowerCase()} tool`}
+              aria-pressed={tool === t.id}
               onClick={() => setTool(t.id)}
             >
               <svg
@@ -450,6 +498,8 @@ export default function Annotator({
               key={c}
               className={'ann-color' + (color === c ? ' on' : '')}
               data-tip="Color"
+              aria-label={`Select annotation color ${c}`}
+              aria-pressed={color === c}
               onClick={() => setColor(c)}
               style={{ background: c }}
             />
@@ -460,6 +510,8 @@ export default function Annotator({
               key={s}
               className={'ann-size' + (size === s ? ' on' : '')}
               data-tip="Stroke size"
+              aria-label={`Select stroke size ${s}`}
+              aria-pressed={size === s}
               onClick={() => setSize(s)}
             >
               <span style={{ width: s + 4, height: s + 4 }} />
@@ -469,6 +521,7 @@ export default function Annotator({
           <button
             className="ann-btn"
             data-tip="Undo"
+            aria-label="Undo annotation"
             onClick={() => {
               strokes.current = strokes.current.slice(0, -1);
               commit();
@@ -479,6 +532,7 @@ export default function Annotator({
           <button
             className="ann-btn"
             data-tip="Clear all"
+            aria-label="Clear all annotations"
             onClick={() => {
               strokes.current = [];
               commit();

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { useDeck } from './DeckContext';
 
@@ -21,9 +21,14 @@ export default function Build({
   style?: CSSProperties;
 }) {
   const { clicks, isStatic, registerMax } = useDeck();
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     registerMax?.(at);
   }, [at, registerMax]);
+  const shown = isStatic || clicks >= at;
+  useEffect(() => {
+    if (ref.current) ref.current.inert = !shown;
+  }, [shown]);
 
   if (isStatic)
     return (
@@ -32,16 +37,18 @@ export default function Build({
       </div>
     );
 
-  const shown = clicks >= at;
   return (
     <motion.div
+      ref={ref}
       className={className}
       style={{ ...style, pointerEvents: shown ? 'auto' : 'none' }}
+      aria-hidden={!shown}
       initial={false}
       animate={{
         opacity: shown ? 1 : 0,
         y: shown ? 0 : y,
         filter: shown ? 'blur(0px)' : 'blur(3px)',
+        visibility: shown ? 'visible' : 'hidden',
       }}
       transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
     >
