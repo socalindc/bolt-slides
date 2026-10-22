@@ -152,6 +152,98 @@ describe('Deck hardening', () => {
     await waitFor(() => expect(view.getByText('Second slide')).toBeTruthy());
   });
 
+  describe.each([-200, 200])('horizontal swipe of %d pixels', (dx) => {
+    it.each([
+      ['target', 'auto', 600, false],
+      ['target', 'scroll', 600, false],
+      ['ancestor', 'auto', 600, false],
+      ['ancestor', 'scroll', 600, false],
+      ['root', 'auto', 600, false],
+      ['ancestor', 'auto', 300, true],
+      ['ancestor', 'hidden', 600, true],
+      ['ancestor', 'visible', 600, true],
+      ['outside', 'auto', 600, true],
+    ])('handles %s with overflow-x %s and scrollWidth %d', (location, overflowX, scrollWidth, pages) => {
+      history.replaceState(null, '', '/#2');
+      const view = render(
+        <Deck id="scrollable-swipe-test">
+          <Slide>First slide</Slide>
+          <Slide>
+            <div data-testid="scroll-container"><span>Wide content</span></div>
+          </Slide>
+          <Slide>Third slide</Slide>
+        </Deck>
+      );
+      const target = view.getByText('Wide content');
+      const scrollable = location === 'target' ? target
+        : location === 'root' ? view.container.querySelector<HTMLElement>('.deck')!
+        : location === 'outside' ? view.container
+        : view.getByTestId('scroll-container');
+      scrollable.style.overflowX = overflowX;
+      Object.defineProperties(scrollable, {
+        clientWidth: { value: 300 },
+        scrollWidth: { value: scrollWidth },
+      });
+
+      fireEvent.touchStart(target, {
+        touches: [{ clientX: 300, clientY: 400 }],
+      });
+      fireEvent.touchEnd(target, {
+        changedTouches: [{ clientX: 300 + dx, clientY: 408 }],
+      });
+
+      expect(window.location.hash).toBe(pages ? (dx < 0 ? '#3' : '#1') : '#2');
+    });
+  });
+
+  it('migrates legacy notes to the scoped key and keeps them after a remount', () => {
+    const notes = { 0: 'Saved first note', 1: 'Saved second note' };
+    localStorage.setItem('deck:notes', JSON.stringify(notes));
+    history.replaceState(null, '', '/?presenter=1#1');
+    const slides = [
+      <Slide key="first" notes="Authored first note">First slide</Slide>,
+      <Slide key="second" notes="Authored second note">Second slide</Slide>,
+    ];
+    const view = render(<Deck id="notes-test">{slides}</Deck>);
+
+    expect((view.getByRole('textbox') as HTMLTextAreaElement).value).toBe(notes[0]);
+    expect(JSON.parse(localStorage.getItem('bolt-slides:notes-test:notes')!)).toEqual(notes);
+    fireEvent.click(view.getAllByRole('button', { name: 'Next' })[0]);
+    expect((view.getByRole('textbox') as HTMLTextAreaElement).value).toBe(notes[1]);
+
+    view.unmount();
+    localStorage.removeItem('deck:notes');
+    const remounted = render(<Deck id="notes-test">{slides}</Deck>);
+    expect((remounted.getByRole('textbox') as HTMLTextAreaElement).value).toBe(notes[1]);
+  });
+
+  it.each([
+    [{ 0: 'Scoped note' }, 'Scoped note'],
+    [{}, 'Authored note'],
+  ])('preserves an existing scoped notes value %j', (notes, expected) => {
+    localStorage.setItem('deck:notes', JSON.stringify({ 0: 'Legacy note' }));
+    const stored = JSON.stringify(notes);
+    localStorage.setItem('bolt-slides:notes-test:notes', stored);
+    history.replaceState(null, '', '/?presenter=1#1');
+    const view = render(
+      <Deck id="notes-test"><Slide notes="Authored note">First slide</Slide></Deck>
+    );
+
+    expect((view.getByRole('textbox') as HTMLTextAreaElement).value).toBe(expected);
+    expect(localStorage.getItem('bolt-slides:notes-test:notes')).toBe(stored);
+  });
+
+  it('safely ignores malformed legacy notes', () => {
+    localStorage.setItem('deck:notes', '{broken JSON');
+    history.replaceState(null, '', '/?presenter=1#1');
+    const view = render(
+      <Deck id="notes-test"><Slide notes="Authored note">First slide</Slide></Deck>
+    );
+
+    expect((view.getByRole('textbox') as HTMLTextAreaElement).value).toBe('Authored note');
+    expect(localStorage.getItem('bolt-slides:notes-test:notes')).toBeNull();
+  });
+
   it('preserves interactive slide state after navigating away and back', async () => {
     const view = render(
       <Deck id="state-test">

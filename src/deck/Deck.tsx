@@ -73,9 +73,19 @@ const cloneAnnotations = (store: Record<number, Stroke[]>) =>
     Object.entries(store).map(([slide, strokes]) => [slide, cloneStrokes(strokes)])
   ) as Record<number, Stroke[]>;
 
-function readStored<T>(key: string, fallback: T): T {
+function readStored<T>(key: string, fallback: T, legacyKey?: string): T {
   try {
-    return JSON.parse(localStorage.getItem(key) || '') as T;
+    const stored = localStorage.getItem(key);
+    if (stored !== null) return JSON.parse(stored) as T;
+    if (legacyKey) {
+      const legacy = localStorage.getItem(legacyKey);
+      if (legacy !== null) {
+        const value = JSON.parse(legacy) as T;
+        writeStored(key, value);
+        return value;
+      }
+    }
+    return fallback;
   } catch {
     return fallback;
   }
@@ -219,7 +229,7 @@ export default function Deck({
   const [nearDock, setNearDock] = useState(false);
   const [cursorIdle, setCursorIdle] = useState(false);
   const [noteOverrides, setNoteOverrides] = useState<Record<number, string>>(
-    () => readStored(notesKey, {})
+    () => readStored(notesKey, {}, 'deck:notes')
   );
   const [visited, setVisited] = useState<Set<number>>(
     () => new Set([slide])
@@ -231,6 +241,7 @@ export default function Deck({
   // visited interactive slides stay mounted without inheriting another slide's
   // click state, and make drawings durable across reloads.
   const maxMap = useRef<Record<number, number>>({});
+  const deckRef = useRef<HTMLDivElement>(null);
   const clickMap = useRef<Record<number, number>>({ [slide]: 0 });
   const annStore = useRef<Record<number, Stroke[]>>(
     readStored(annotationsKey, {})
@@ -431,7 +442,7 @@ export default function Deck({
       t0 = 0,
       live = false;
     const onStart = (e: TouchEvent) => {
-      const t = e.target as HTMLElement | null;
+      const t = e.target instanceof Element ? e.target : null;
       if (
         e.touches.length !== 1 ||
         t?.closest(
@@ -440,6 +451,16 @@ export default function Deck({
       ) {
         live = false;
         return;
+      }
+      // Let horizontal scrollers consume the gesture, even at their edges.
+      for (let el = t; el && deckRef.current?.contains(el); el = el.parentElement) {
+        if (
+          el.scrollWidth > el.clientWidth &&
+          /^(auto|scroll)$/.test(window.getComputedStyle(el).overflowX)
+        ) {
+          live = false;
+          return;
+        }
       }
       live = true;
       x0 = e.touches[0].clientX;
@@ -672,7 +693,7 @@ export default function Deck({
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className={'deck' + (cursorHidden ? ' nocursor' : '')}>
+      <div ref={deckRef} className={'deck' + (cursorHidden ? ' nocursor' : '')}>
         {slides.map((item, index) => {
           if (
             index !== slide &&
