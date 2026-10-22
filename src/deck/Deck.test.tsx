@@ -1,9 +1,11 @@
 import { useState, type ReactElement } from 'react';
-import { fireEvent, render, waitFor, within } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import Deck from './Deck';
 import Build from './Build';
 import Slide from './Slide';
+
+afterEach(() => vi.restoreAllMocks());
 
 function StatefulDemo() {
   const [count, setCount] = useState(0);
@@ -49,6 +51,86 @@ describe('Deck hardening', () => {
     button.focus();
     fireEvent.keyDown(button, { key: ' ' });
     expect(view.queryByText('Second slide')).toBeNull();
+  });
+
+  it.each([
+    ['ArrowRight', 'Third slide'],
+    ['ArrowDown', 'Third slide'],
+    ['ArrowLeft', 'First slide'],
+    ['ArrowUp', 'First slide'],
+  ])('handles %s after clicking and focusing Next', (key, expectedSlide) => {
+    const view = render(
+      <Deck id="focused-next-test">
+        <Slide>First slide</Slide>
+        <Slide>Second slide</Slide>
+        <Slide>Third slide</Slide>
+      </Deck>
+    );
+    const next = view.getAllByRole('button', { name: 'Next' })[0];
+    next.focus();
+    fireEvent.click(next);
+    expect(view.container.querySelector('.slide-stage.active')?.textContent).toBe(
+      'Second slide'
+    );
+    expect(document.activeElement).toBe(next);
+
+    fireEvent.keyDown(next, { key });
+
+    expect(view.container.querySelector('.slide-stage.active')?.textContent).toBe(
+      expectedSlide
+    );
+  });
+
+  it.each([
+    'Toggle slide sidebar',
+    'Toggle grid view',
+    'Toggle annotation tools',
+  ])('handles Escape while %s has focus', (name) => {
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
+    const view = render(
+      <Deck id="focused-toggle-test">
+        <Slide>First slide</Slide>
+      </Deck>
+    );
+    const toggle = view.getByRole('button', { name });
+    toggle.focus();
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+
+    fireEvent.keyDown(toggle, { key: 'Escape' });
+
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+  });
+
+  it.each([
+    'input',
+    'textarea',
+    'true',
+    '',
+    'plaintext-only',
+  ])('ignores shortcuts in editable field %j', (kind) => {
+    const editor = kind === 'input' ? <input /> : kind === 'textarea' ? <textarea /> : (
+      <div contentEditable suppressContentEditableWarning><span>Editor</span></div>
+    );
+    const view = render(
+      <Deck id="editable-keyboard-test">
+        <Slide>{editor}</Slide>
+        <Slide>Second slide</Slide>
+      </Deck>
+    );
+    const sidebar = view.getByRole('button', { name: 'Toggle slide sidebar' });
+    fireEvent.click(sidebar);
+    const stage = view.container.querySelector('.slide-stage.active')!;
+    const field = stage.querySelector<HTMLElement>('input,textarea,span')!;
+    const editable = field.closest<HTMLElement>('[contenteditable]');
+    if (editable) editable.setAttribute('contenteditable', kind);
+    (editable ?? field).focus();
+
+    fireEvent.keyDown(field, { key: 'ArrowRight' });
+    fireEvent.keyDown(field, { key: 'Escape' });
+
+    expect(view.container.querySelector('.slide-stage.active')).toBe(stage);
+    expect(sidebar.getAttribute('aria-pressed')).toBe('true');
   });
 
   it('pages on a horizontal touch swipe', async () => {
@@ -166,5 +248,40 @@ describe('Deck hardening', () => {
 
     presenter.unmount();
     presenterRoot.remove();
+  });
+
+  it('broadcasts the first slide change after reloading an unchanged presenter', async () => {
+    const slides = [
+      <Slide key="first">First slide</Slide>,
+      <Slide key="second">Second slide</Slide>,
+      <Slide key="third">Third slide</Slide>,
+    ];
+    const audience = render(<Deck id="unchanged-sync-test">{slides}</Deck>);
+    history.replaceState(null, '', '/?presenter=1#1');
+
+    let presenter!: ReturnType<typeof render>;
+    await act(async () => {
+      presenter = render(<Deck id="unchanged-sync-test">{slides}</Deck>);
+    });
+    presenter.unmount();
+    await act(async () => {
+      presenter = render(<Deck id="unchanged-sync-test">{slides}</Deck>);
+    });
+
+    const next = within(presenter.container).getAllByRole('button', { name: 'Next' })[0];
+    fireEvent.click(next);
+
+    await waitFor(() =>
+      expect(audience.container.querySelector('.slide-stage.active')?.textContent).toBe(
+        'Second slide'
+      )
+    );
+
+    fireEvent.click(next);
+    await waitFor(() =>
+      expect(audience.container.querySelector('.slide-stage.active')?.textContent).toBe(
+        'Third slide'
+      )
+    );
   });
 });

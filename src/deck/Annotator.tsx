@@ -367,6 +367,7 @@ export default function Annotator({
     if (root && resize) resize.observe(root);
 
     window.addEventListener('resize', fit);
+    window.addEventListener('scroll', scheduleRedraw, true);
     window.addEventListener('pointerup', onUp);
     root?.addEventListener('transitionend', scheduleRedraw, true);
     root?.addEventListener('animationend', scheduleRedraw, true);
@@ -378,6 +379,7 @@ export default function Annotator({
       mutations?.disconnect();
       resize?.disconnect();
       window.removeEventListener('resize', fit);
+      window.removeEventListener('scroll', scheduleRedraw, true);
       window.removeEventListener('pointerup', onUp);
       root?.removeEventListener('transitionend', scheduleRedraw, true);
       root?.removeEventListener('animationend', scheduleRedraw, true);

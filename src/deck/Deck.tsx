@@ -225,6 +225,7 @@ export default function Deck({
     () => new Set([slide])
   );
   const [annotationRevision, setAnnotationRevision] = useState(0);
+  const [remoteStateRevision, setRemoteStateRevision] = useState(0);
 
   // Per-slide build maxima, click state, and annotations. The latter two let
   // visited interactive slides stay mounted without inheriting another slide's
@@ -353,8 +354,15 @@ export default function Deck({
         t &&
         (t.isContentEditable ||
           t.closest(
-            'button,a,input,textarea,select,summary,[role="button"],[role="tab"],[contenteditable="true"]'
+            'input,textarea,select,[contenteditable]:not([contenteditable="false"])'
           ))
+      )
+        return;
+      // Space still activates focused controls; other shortcuts remain usable
+      // after clicking deck buttons such as Next, Sidebar, and Annotate.
+      if (
+        e.key === ' ' &&
+        t?.closest('button,a,summary,[role="button"],[role="tab"]')
       )
         return;
       switch (e.key) {
@@ -548,6 +556,8 @@ export default function Deck({
         }
 
         applyingRemote.current = true;
+        // Even an identical state must run the effect that clears suppression.
+        setRemoteStateRevision((revision) => revision + 1);
         syncReady.current = true;
         pendingLocalState.current = false;
         clickMap.current[nextSlide] = nextClicks;
@@ -589,7 +599,7 @@ export default function Deck({
       clicks,
       curMax,
     } satisfies SyncState);
-  }, [slide, clicks, curMax]);
+  }, [slide, clicks, curMax, remoteStateRevision]);
 
   // fullscreen flag, presenter timer, idle auto-hide
   useEffect(() => {
